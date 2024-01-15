@@ -1,6 +1,9 @@
 import React from "react";
 import Post from "./Post/Post";
 
+//styles & images
+import {} from "./styles";
+
 const Posts = () => {
   return (
     <>

@@ -6,23 +6,17 @@ import Form from "./components/Form/Form";
 
 //images & styles
 import petsrep from "./images/petsrep.png";
-import createStyles from "./styles";
+import { MyAppBar, MyHeading, MyImage } from "./styles";
 
 function App() {
-  const classes = createStyles();
   return (
     <Container maxWidth="lg">
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography className={classes.heading} variant="h2" align="center">
+      <MyAppBar position="static" color="inherit">
+        <MyHeading variant="h2" align="center">
           PetsRep
-        </Typography>
-        <img
-          className={classes.image}
-          src={petsrep}
-          alt="petsrep"
-          height="60"
-        />
-      </AppBar>
+        </MyHeading>
+        <MyImage src={petsrep} alt="petsrep" height="60" />
+      </MyAppBar>
       <Grow in>
         <Container>
           <Grid
