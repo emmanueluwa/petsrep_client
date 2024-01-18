@@ -1,14 +1,23 @@
-import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+// import { fetchPosts } from "./reducers/posts";
 
 //components
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 
 //images & styles
+import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
 import petsrep from "./images/petsrep.png";
 import { MyAppBar, MyHeading, MyImage } from "./styles";
 
 function App() {
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(fetchPosts());
+  // }, [dispatch]);
+
   return (
     <Container maxWidth="lg">
       <MyAppBar position="static" color="inherit">

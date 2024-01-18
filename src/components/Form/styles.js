@@ -6,39 +6,35 @@
 //       margin: theme.spacing(1),
 //     },
 //   },
-//   paper: {
-//     padding: theme.spacing(2),
-//   },
-//   form: {
-//     display: "flex",
-//     flexWrap: "wrap",
-//     justifyContent: "center",
-//   },
-//   fileInput: {
-//     width: "97%",
-//     margin: "10px 0",
-//   },
+
 //   buttonSubmit: {
 //     marginBottom: 10,
 //   },
 // }));
 
-// import styled from "@emotion/styled";
-// import { AppBar, Typography } from "@mui/material";
+import styled from "@emotion/styled";
+import { Button, TextField, Paper } from "@mui/material";
 
-// export const MyAppBar = styled(AppBar)(() => ({
-//   borderRadius: 15,
-//   margin: "30px 0",
-//   display: "flex",
-//   flexDirection: "row",
-//   justifyContent: "center",
-//   alignItems: "center",
-// }));
+export const MyButton = styled(Button)(() => ({
+  marginBottom: "10px",
+}));
 
-// export const MyHeading = styled(Typography)(() => ({
-//   color: "rgb(255 167 0)",
-// }));
+export const MyTextField = styled(TextField)(() => ({
+  margin: "10px 0",
+}));
 
-// export const MyImage = styled("img")(() => ({
-//   marginLeft: "15px",
-// }));
+export const MyPaper = styled(Paper)(() => ({
+  padding: "2px",
+}));
+
+export const MyForm = styled("form")(() => ({
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  margin: "1px",
+}));
+
+export const MyFileInput = styled("div")(() => ({
+  width: "97%",
+  margin: "10px 0",
+}));
