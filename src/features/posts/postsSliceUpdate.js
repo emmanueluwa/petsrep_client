@@ -27,10 +27,18 @@ const postsSliceUpdate = createSlice({
         state.status = StatusCode.LOADING;
       })
       .addCase(updatePost.fulfilled, (state, action) => {
-        state.data.map((post) =>
+        state.data = data.map((post) =>
           post._id === action.payload._id ? action.payload : post
         );
-        state.data = StatusCode.IDLE;
+
+        // const updatedIndex = state.data.findIndex(
+        //   (post) => post._id === action.payload._id
+        // );
+        // if (updatedIndex !== -1) {
+        //   state.data[updatedIndex] = action.payload;
+        // }
+
+        state.status = StatusCode.IDLE;
       })
       .addCase(updatePost.rejected, (state, action) => {
         state.status = StatusCode.ERROR;
@@ -52,7 +60,10 @@ working with async data, delay when fetching posts
 - => async (dispatch)
 */
 
-export const updatePost = createAsyncThunk("posts/update", async (post, id) => {
-  const { data } = await api.createPost(post, id);
+export const updatePost = createAsyncThunk("posts/update", async (payload) => {
+  const { id, updatedPost } = payload;
+  console.log(`updating post with ${id}`, updatedPost);
+
+  const { data } = await api.updatePost(id, updatedPost);
   return data;
 });

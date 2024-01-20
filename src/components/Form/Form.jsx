@@ -8,7 +8,7 @@ import { updatePost } from "../../features/posts/postsSliceUpdate";
 
 //styles & images
 import { MyButton, MyFileInput, MyForm, MyPaper, MyTextField } from "./styles";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
@@ -19,35 +19,20 @@ const Form = ({ currentId, setCurrentId }) => {
     selectedFile: "",
   });
 
-  const post = useSelector((state) =>
-    currentId ? state.postsCall.find((p) => p._id === currentId) : null
-  );
-
-  console.log(currentId);
+  const post = useSelector((state) => {
+    return currentId
+      ? state.postsCall.data.find((p) => p._id === currentId)
+      : null;
+  });
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (post) setPostData();
+    if (post) setPostData(post);
   }, [post]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault;
-
-    if (currentId) {
-      dispatch(updatePost({ id: currentId, post: postData }));
-    } else {
-      // if (postData) {
-      //   dispatch(createPost(postData));
-      // }
-      dispatch(createPost(postData));
-    }
-
-    clear();
-  };
-
   const clear = () => {
-    setCurrentId(null);
+    setCurrentId(0);
     setPostData({
       creator: "",
       title: "",
@@ -55,6 +40,22 @@ const Form = ({ currentId, setCurrentId }) => {
       tags: "",
       selectedFile: "",
     });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (currentId === 0) {
+      dispatch(createPost(postData));
+    } else {
+      console.log(currentId, postData);
+      // if (postData) {
+      //   dispatch(createPost(postData));
+      // }
+      dispatch(updatePost({ id: currentId, updatedPost: postData }));
+    }
+
+    clear();
   };
 
   return (
