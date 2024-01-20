@@ -27,7 +27,7 @@ const postsSliceAdd = createSlice({
         state.status = StatusCode.LOADING;
       })
       .addCase(createPost.fulfilled, (state, action) => {
-        state.data = data.push(action.payload);
+        state.data.push(action.payload);
         state.status = StatusCode.IDLE;
       })
       .addCase(createPost.rejected, (state, action) => {
@@ -35,8 +35,6 @@ const postsSliceAdd = createSlice({
       });
   },
 });
-
-export const { fetchProducts } = postsSliceAdd.actions;
 
 export default postsSliceAdd.reducer;
 

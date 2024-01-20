@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-// import { fetchPosts } from "./reducers/posts";
+import { useEffect, useState } from "react";
+import { getPosts } from "./features/posts/postsSliceCall";
 
 //components
 import Posts from "./components/Posts/Posts";
@@ -12,11 +12,12 @@ import petsrep from "./images/petsrep.png";
 import { MyAppBar, MyHeading, MyImage } from "./styles";
 
 function App() {
+  const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(fetchPosts());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [currentId, dispatch]);
 
   return (
     <Container maxWidth="lg">
@@ -35,10 +36,10 @@ function App() {
             spacing={3}
           >
             <Grid item xs={12} sm={7}>
-              <Posts />
+              <Posts setCurrentId={setCurrentId} />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Form />
+              <Form currentId={currentId} setCurrentId={setCurrentId} />
             </Grid>
           </Grid>
         </Container>

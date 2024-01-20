@@ -12,3 +12,11 @@
 //     textAlign: "center",
 //   },
 // }));
+
+import styled from "@emotion/styled";
+import { Grid } from "@mui/material";
+
+export const MyGrid = styled(Grid)(() => ({
+  display: "flex",
+  alignItems: "center",
+}));

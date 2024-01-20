@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { createPost } from "../../features/posts/postsSliceAdd";
+import { updatePost } from "../../features/posts/postsSliceUpdate";
 
 //styles & images
 import { MyButton, MyFileInput, MyForm, MyPaper, MyTextField } from "./styles";
 import { Typography } from "@mui/material";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -17,22 +19,50 @@ const Form = () => {
     selectedFile: "",
   });
 
+  const post = useSelector((state) =>
+    currentId ? state.postsCall.find((p) => p._id === currentId) : null
+  );
+
+  console.log(currentId);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (post) setPostData();
+  }, [post]);
 
   const handleSubmit = (e) => {
     e.preventDefault;
 
-    if (postData) {
-      console.log({ postData });
-      dispatch(createPost({ postData }));
+    if (currentId) {
+      dispatch(updatePost({ id: currentId, post: postData }));
+    } else {
+      // if (postData) {
+      //   dispatch(createPost(postData));
+      // }
+      dispatch(createPost(postData));
     }
+
+    clear();
   };
 
-  const clear = () => {};
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
+
   return (
     <MyPaper>
       <MyForm autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Typography variante="h6">Creating a Post</Typography>
+        <Typography variante="h6">
+          {currentId ? `Editing` : `Creating`} a Post
+        </Typography>
         <MyTextField
           name="creator"
           variant="outlined"

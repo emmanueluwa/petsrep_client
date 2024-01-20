@@ -6,32 +6,28 @@ import { useDispatch } from "react-redux";
 import StatusCode from "../../utils/StatusCode";
 
 //styles & images
-import {} from "./styles";
+import { MyGrid } from "./styles";
+import { CircularProgress, Grid } from "@mui/material";
 
-const Posts = () => {
+const Posts = ({ setCurrentId }) => {
   //retreiving data,from redex data passing, global redux stores
   const { data: posts, status } = useSelector((state) => state.postsCall);
-  const dispatch = useDispatch();
-
-  console.log(posts);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, []);
 
   if (status === StatusCode.LOADING) {
-    return <p>Loading...</p>;
+    return <CircularProgress />;
   }
 
   if (status === StatusCode.ERROR) {
     return <p>Something went wrong</p>;
   }
   return (
-    <>
-      <h1>Posts</h1>
-      <Post />
-      <Post />
-    </>
+    <MyGrid container alignItems="stretch" spacing={3}>
+      {posts.map((post) => (
+        <Grid key={post._id} xs={12} sm={6} item>
+          <Post post={post} setCurrentId={setCurrentId} />
+        </Grid>
+      ))}
+    </MyGrid>
   );
 };
 

@@ -9,8 +9,8 @@ const initialState = {
   status: "idle",
 };
 
-const postsSliceCall = createSlice({
-  name: "postsCall",
+const postsSliceUpdate = createSlice({
+  name: "postsUpdate",
   initialState,
   reducers: {
     //thunk creator, dispatches action for this function
@@ -23,20 +23,22 @@ const postsSliceCall = createSlice({
     //handle the 3 states of promises
     //read data and do state update logic
     builder
-      .addCase(getPosts.pending, (state, action) => {
+      .addCase(updatePost.pending, (state, action) => {
         state.status = StatusCode.LOADING;
       })
-      .addCase(getPosts.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.status = StatusCode.IDLE;
+      .addCase(updatePost.fulfilled, (state, action) => {
+        state.data.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        );
+        state.data = StatusCode.IDLE;
       })
-      .addCase(getPosts.rejected, (state, action) => {
+      .addCase(updatePost.rejected, (state, action) => {
         state.status = StatusCode.ERROR;
       });
   },
 });
 
-export default postsSliceCall.reducer;
+export default postsSliceUpdate.reducer;
 
 /*
 Action creators
@@ -50,21 +52,7 @@ working with async data, delay when fetching posts
 - => async (dispatch)
 */
 
-export const getPosts = createAsyncThunk("posts/get", async () => {
-  const { data } = await api.fetchPosts();
+export const updatePost = createAsyncThunk("posts/update", async (post, id) => {
+  const { data } = await api.createPost(post, id);
   return data;
 });
-
-// THUNK CREATOR: called from ui
-// export function getPosts() {
-//   return async function getPostsThunk(dispatch, state) {
-//     try {
-//       const { data } = await api.fetchPosts();
-
-//       //thunk action creator calls this function
-//       dispatch(fetchProducts(data));
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
-// }

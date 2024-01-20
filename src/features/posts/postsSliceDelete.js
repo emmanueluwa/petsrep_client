@@ -9,8 +9,8 @@ const initialState = {
   status: "idle",
 };
 
-const postsSliceCall = createSlice({
-  name: "postsCall",
+const postsSliceDelete = createSlice({
+  name: "postsDelete",
   initialState,
   reducers: {
     //thunk creator, dispatches action for this function
@@ -23,20 +23,24 @@ const postsSliceCall = createSlice({
     //handle the 3 states of promises
     //read data and do state update logic
     builder
-      .addCase(getPosts.pending, (state, action) => {
+      .addCase(deletePost.pending, (state, action) => {
         state.status = StatusCode.LOADING;
       })
-      .addCase(getPosts.fulfilled, (state, action) => {
-        state.data = action.payload;
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.data = data.filter((post) =>
+          post._id === action.payload._id ? action.payload : post
+        );
+
         state.status = StatusCode.IDLE;
       })
-      .addCase(getPosts.rejected, (state, action) => {
+      .addCase(deletePost.rejected, (state, action) => {
         state.status = StatusCode.ERROR;
+        console.log(state.status);
       });
   },
 });
 
-export default postsSliceCall.reducer;
+export default postsSliceDelete.reducer;
 
 /*
 Action creators
@@ -50,21 +54,6 @@ working with async data, delay when fetching posts
 - => async (dispatch)
 */
 
-export const getPosts = createAsyncThunk("posts/get", async () => {
-  const { data } = await api.fetchPosts();
-  return data;
+export const deletePost = createAsyncThunk("posts/delete", async (id) => {
+  await api.deletePost(id);
 });
-
-// THUNK CREATOR: called from ui
-// export function getPosts() {
-//   return async function getPostsThunk(dispatch, state) {
-//     try {
-//       const { data } = await api.fetchPosts();
-
-//       //thunk action creator calls this function
-//       dispatch(fetchProducts(data));
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
-// }
