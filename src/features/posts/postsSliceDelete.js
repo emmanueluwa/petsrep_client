@@ -28,7 +28,7 @@ const postsSliceDelete = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.data = data.filter((post) =>
-          post._id === action.payload._id ? action.payload : post
+          post._id !== action.payload._id ? action.payload : post
         );
 
         state.status = StatusCode.IDLE;

@@ -38,18 +38,6 @@ const postsSliceAdd = createSlice({
 
 export default postsSliceAdd.reducer;
 
-/*
-Action creators
-- functions that return actions
-
-action
-- object that has type and payload
-
-working with async data, delay when fetching posts
-- redux thunk
-- => async (dispatch)
-*/
-
 export const createPost = createAsyncThunk("posts/add", async (post) => {
   const { data } = await api.createPost(post);
   return data;

@@ -1,19 +1,21 @@
 import styled from "@emotion/styled";
-import { AppBar, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 
-export const MyAppBar = styled(AppBar)(() => ({
-  borderRadius: 15,
-  margin: "30px 0",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-}));
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 300,
+      md: 600,
+      bg: 900,
+      lg: 1200,
+    },
+  },
+});
 
-export const MyHeading = styled(Typography)(() => ({
-  color: "rgb(255 167 0)",
-}));
-
-export const MyImage = styled("img")(() => ({
-  marginLeft: "15px",
+export const MyGrid = styled(Grid)(() => ({
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column-reverse",
+  },
 }));

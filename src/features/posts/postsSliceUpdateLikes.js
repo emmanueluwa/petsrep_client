@@ -9,8 +9,8 @@ const initialState = {
   status: "idle",
 };
 
-const postsSliceUpdate = createSlice({
-  name: "postsUpdate",
+const postsSliceUpdateLikes = createSlice({
+  name: "postsUpdateLikes",
   initialState,
   reducers: {
     //thunk creator, dispatches action for this function
@@ -23,10 +23,10 @@ const postsSliceUpdate = createSlice({
     //handle the 3 states of promises
     //read data and do state update logic
     builder
-      .addCase(updatePost.pending, (state, action) => {
+      .addCase(updatePostLikes.pending, (state, action) => {
         state.status = StatusCode.LOADING;
       })
-      .addCase(updatePost.fulfilled, (state, action) => {
+      .addCase(updatePostLikes.fulfilled, (state, action) => {
         state.data = state.data.map((post) =>
           post._id === action.payload._id ? action.payload : post
         );
@@ -40,18 +40,21 @@ const postsSliceUpdate = createSlice({
 
         state.status = StatusCode.IDLE;
       })
-      .addCase(updatePost.rejected, (state, action) => {
+      .addCase(updatePostLikes.rejected, (state, action) => {
         state.status = StatusCode.ERROR;
       });
   },
 });
 
-export default postsSliceUpdate.reducer;
+export default postsSliceUpdateLikes.reducer;
 
-export const updatePost = createAsyncThunk("posts/update", async (payload) => {
-  const { id, updatedPost } = payload;
-  console.log(`updating post with ${id}`, updatedPost);
+export const updatePostLikes = createAsyncThunk(
+  "posts/updateLikes",
+  async (payload) => {
+    const { id } = payload;
+    console.log(`updating likes for post ${id}`);
 
-  const { data } = await api.updatePost(id, updatedPost);
-  return data;
-});
+    const { data } = await api.updateLikes(id);
+    return data;
+  }
+);

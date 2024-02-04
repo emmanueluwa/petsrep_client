@@ -1,6 +1,8 @@
 import React from "react";
 import moment from "moment";
 import { deletePost } from "../../../features/posts/postsSliceDelete";
+import { updatePostLikes } from "../../../features/posts/postsSliceUpdateLikes";
+
 import { useDispatch } from "react-redux";
 //styles & images
 import {
@@ -46,14 +48,18 @@ const Post = ({ post, setCurrentId }) => {
         {post.title}
       </TypographyTitle>
       <CardContent>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="body2" color="textSecondary" component="p">
           {post.message}
         </Typography>
       </CardContent>
       <MyCardActions>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => dispatch(updatePostLikes({ id: post._id }))}
+        >
           <ThumbUpAltIcon fontSize="small" />
-          Like
+          &nbsp; Like &nbsp;
           {post.likeCount}
         </Button>
         <Button
